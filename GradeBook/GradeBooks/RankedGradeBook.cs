@@ -19,13 +19,16 @@ namespace GradeBook.GradeBooks
                 throw new InvalidOperationException("Ranked grading requires a minimum of 5 students to work");
             }
 
-            var studentsToDropGrade = this.Students.Count / 5;
+            var studentsToDropGrade = Math.Floor(this.Students.Count / 5.0);
 
             var countOfStudentsWithHigherGrade = this.Students.Count(s => s.AverageGrade > averageGrade);
 
-            var howManyGradesToDrop = countOfStudentsWithHigherGrade / studentsToDropGrade;
+            var howManyGradesToDrop = Math.Floor(countOfStudentsWithHigherGrade / (double)studentsToDropGrade);
 
-            return (char)((int)'A' + howManyGradesToDrop);
+            var resultingGrade = (char)((int)'A' + howManyGradesToDrop);
+            if (resultingGrade == 'E') resultingGrade++;
+
+            return resultingGrade;
         }
     }
 }
